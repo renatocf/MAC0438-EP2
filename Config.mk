@@ -58,4 +58,4 @@
 # ===============
 # 'include conf/makeball.mk' for pre-configured options
 # to use the library 'makeball'
-
+include conf/gmp.mk
