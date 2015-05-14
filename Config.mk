@@ -5,6 +5,8 @@
 
 # Project info
 # ===============
+PROJECT         := MAC0438-EP2
+VERSION         := 1.0
 # PROJECT         := # Project name (def: Default)
 # VERSION         := # Version (def: 1.0.0)
 # STD_NAMESPACE   := # Project namespace for C/C++
