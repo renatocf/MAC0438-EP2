@@ -19,6 +19,7 @@ VERSION         := 1.0
 
 # Program settings
 # ==================
+TESTBIN         := test
 # BIN             := # Binaries' names. If a subdir of any
                      # src dir has the same name of this bin
                      # it and all its subdir will be compiled
@@ -61,3 +62,4 @@ VERSION         := 1.0
 # 'include conf/makeball.mk' for pre-configured options
 # to use the library 'makeball'
 include conf/gmp.mk
+include conf/googletest.mk
