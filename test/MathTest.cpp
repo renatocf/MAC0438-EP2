@@ -18,7 +18,7 @@ class ASingleThreadCosine : public testing::Test {
 
 TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosines){
   std::vector<double> angles {
-    0, PI, 2*PI
+    -PI, 0, PI, 2*PI, 3*PI
   };
 
   for (auto angle : angles)
