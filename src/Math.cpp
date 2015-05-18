@@ -7,22 +7,26 @@
 
 const double PI = 3.141592653589793238462643;
 
-unsigned long int factorial (unsigned long int n) {
+// Alias
+using mpz = unsigned long int;
+using mpf = double;
+
+mpz factorial (mpz n) {
   return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
 }
 
-double fixRadians_impl(double radians) {
+mpf fixRadians_impl(mpf radians) {
   if (radians > 2*PI)
     return fixRadians_impl(radians - 2*PI);
   return radians;
 }
 
-double fixRadians(double radians) {
+mpf fixRadians(mpf radians) {
   return fixRadians_impl(std::abs(radians));
 }
 
-double calculateCosine(double radians) {
-  double cos = 0;  
+mpf calculateCosine(mpf radians) {
+  mpf cos = 0;
   radians = fixRadians(radians);
 
   for (int n = 0; n < 10; n++) {
