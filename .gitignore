@@ -27,3 +27,7 @@ doc/Doxyfile.mk
 *.d
 *.dep
 
+# Vim auxiliars
+#================
+*.sw*
+
