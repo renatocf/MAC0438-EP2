@@ -10,6 +10,6 @@ using mpf = mpf_class;
 
 mpz factorial(mpz n);
 
-mpf calculateCosine(mpf radians);
+mpf singleThreadedCosine(mpf radians);
 
 #endif

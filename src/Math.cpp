@@ -21,7 +21,7 @@ mpf fixRadians(mpf radians) {
   return fixRadians_impl(abs(radians));
 }
 
-mpf calculateCosine(mpf radians) {
+mpf singleThreadedCosine(mpf radians) {
   mpf cos = 0;
   mpf aux = 0;
 
