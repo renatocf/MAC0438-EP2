@@ -20,10 +20,7 @@ VERSION         := 1.0
 # Program settings
 # ==================
 TESTBIN         := test
-# BIN             := # Binaries' names. If a subdir of any
-                     # src dir has the same name of this bin
-                     # it and all its subdir will be compiled
-                     # only for this specific binary
+BIN             := Cosine
 # ARLIB           := # Static/Shared libraries' names. If
 # SHRLIB          := # one is a dir, all srcs within will
                      # make the lib
