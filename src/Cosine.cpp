@@ -1,5 +1,5 @@
 // Standard headers
-#include <thread>
+#include <cstdlib>
 #include <iostream>
 
 // Internal headers
@@ -7,12 +7,15 @@
 
 int main(int argc, char **argv)
 {
-  unsigned int n = std::thread::hardware_concurrency();
-  std::cout << n << " concurrent threads are supported.\n";
+  if (argc != 6) {
+    std::cerr << "USAGE: "
+              << argv[0]
+              << "[0|n] [f|m] p x [d|s]"
+              << std::endl;
+    return EXIT_FAILURE;
+  }
 
-  InputArgs input_args;
+  InputArgs input_args(argc, argv);
 
-  std::cout << input_args.n_threads << std::endl;
-
-  return 0;
+  return EXIT_SUCCESS;
 }
