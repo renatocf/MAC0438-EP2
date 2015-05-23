@@ -1,7 +1,8 @@
 // Standard headers
 #include "InputArgs.hpp"
 
-InputArgs::InputArgs() {
+InputArgs::InputArgs(int argc, char const *const *argv)
+    : argstream(argv, argv + argc) {
   read_input();
   process_input();
 }
@@ -12,13 +13,11 @@ void InputArgs::process_input() {
 }
 
 void InputArgs::read_input() {
-  InputArgs input_args;
+  argstream[1] >> n_threads;
+  argstream[2] >> stop_criteria;
+  argstream[3] >> precision;
+  argstream[4] >> cosine;
 
-  std::cin >> n_threads;
-  std::cin >> stop_criteria;
-  std::cin >> precision;
-  std::cin >> cosine;
-
-  if (!std::cin.eof())
-    std::cin >> debug_level;
+  if (argstream.size() >= 5)
+    argstream[5] >> debug_level;
 }

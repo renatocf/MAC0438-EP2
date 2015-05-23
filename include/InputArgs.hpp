@@ -3,7 +3,8 @@
 
 // Standard headers
 #include <thread>
-#include <iostream>
+#include <vector>
+#include <sstream>
 
 struct InputArgs {
  public:
@@ -13,9 +14,11 @@ struct InputArgs {
   double       cosine;
   char         debug_level;
 
-  InputArgs();
+  InputArgs(int argc, char const *const *argv);
 
  private:
+  std::vector<std::stringstream> argstream;
+
   void process_input();
   void read_input();
 };
