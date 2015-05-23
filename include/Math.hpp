@@ -8,8 +8,8 @@
 using mpz = mpz_class;
 using mpf = mpf_class;
 
-mpz factorial(mpz n);
+mpz factorial(const mpz& n);
 
-mpf singleThreadedCosine(mpf radians);
+mpf singleThreadedCosine(const mpf& radians);
 
 #endif
