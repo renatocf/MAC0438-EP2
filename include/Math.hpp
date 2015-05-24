@@ -10,6 +10,6 @@ using mpf = mpf_class;
 
 mpz factorial(const mpz& n);
 
-mpf singleThreadedCosine(const mpf& radians);
+mpf singleThreadedCosine(const mpf& radians, char stop_criteria);
 
 #endif

@@ -27,13 +27,15 @@ mpf calculateTerm(const mpf& radians, unsigned int n) {
   return signal * (aux / factorial(2*n));
 }
 
-mpf singleThreadedCosine(const mpf& radians) {
+mpf singleThreadedCosine(const mpf& radians, char stop_criteria) {
   mpf cos = 0, aux = 0;
 
   mpf fixed_radians { fixRadians(radians) };
 
-  for (unsigned int n = 0; n < 100; n++)
-    cos += calculateTerm(radians, n);
+  for (unsigned int n = 0; n < 100; n++) {
+    aux = std::move(calculateTerm(radians, n));
+    cos += aux;
+  }
 
   return cos;
 }
