@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv)
 {
-  if (argc != 6) {
+  if (argc == 5 || argc == 6) {
     std::cerr << "USAGE: "
               << argv[0]
               << "[0|n] [f|m] p x [d|s]"
