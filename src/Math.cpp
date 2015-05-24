@@ -40,13 +40,16 @@ mpf singleThreadedCosine(const mpf& radians,
 
   mpf fixed_radians { fixRadians(radians) };
 
-  if (stop_criteria == 'f') {
-  } else if (stop_criteria == 'm') {
-  }
+  // if (stop_criteria == 'f') {
+  //   if (abs(aux) < precision) break;
+  // } else if (stop_criteria == 'm') {
+  //   if (abs(aux) < precision) break;
+  // }
 
-  for (unsigned int n = 0; n < 100; n++) {
+  for (unsigned int n = 0; true; n++) {
     aux = std::move(calculateTerm(radians, n));
     cos += aux;
+    if (abs(aux) < precision) break;
   }
 
   return cos;

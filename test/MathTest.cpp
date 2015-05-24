@@ -54,6 +54,7 @@ TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosines) {
   };
 
   for (auto angle : angles)
-    ASSERT_NEAR(singleThreadedCosine(mpf(angle), 'f', 110).get_d(),
+    ASSERT_NEAR(singleThreadedCosine(mpf(angle), 'f',
+                  calculatePrecision(110)).get_d(),
                 std::cos(angle), 1e-2);
 }
