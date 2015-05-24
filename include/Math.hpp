@@ -8,10 +8,12 @@
 using mpz = mpz_class;
 using mpf = mpf_class;
 
+mpf calculatePrecision(int exponent);
+
 mpz factorial(const mpz& n);
 
 mpf singleThreadedCosine(const mpf& radians,
                          char stop_criteria,
-                         int  precision);
+                         const mpf& precision);
 
 #endif

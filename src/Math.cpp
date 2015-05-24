@@ -7,6 +7,12 @@
 
 const double PI = 3.141592653589793238462643;
 
+mpf calculatePrecision(int exponent) {
+  mpf epsilon;
+  mpf_pow_ui(epsilon.get_mpf_t(), mpf(0.1).get_mpf_t(), exponent);
+  return epsilon;
+}
+
 mpz factorial(const mpz& n) {
   return (n == 1 || n == 0) ? mpz(1) : factorial(n - 1) * n;
 }
@@ -29,7 +35,7 @@ mpf calculateTerm(const mpf& radians, unsigned int n) {
 
 mpf singleThreadedCosine(const mpf& radians,
                          char stop_criteria,
-                         int  precision) {
+                         const mpf& precision) {
   mpf cos = 0, aux = 0;
 
   mpf fixed_radians { fixRadians(radians) };
