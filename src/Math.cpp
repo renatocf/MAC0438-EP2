@@ -1,9 +1,11 @@
 // Standard headers
 #include <cmath>
+#include <thread>
 #include <iostream>
 
 // Local headers
 #include "Math.hpp"
+#include "Barrier.hpp"
 
 const double PI = 3.141592653589793238462643;
 
@@ -51,6 +53,70 @@ mpf singleThreadedCosine(const mpf& radians,
     cos += aux;
     if (abs(aux) < precision) break;
   }
+
+  return cos;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+Cosine::Cosine(const mpf& radians,
+               const mpf& precision,
+               char stop_criteria,
+               unsigned int num_threads)
+    : radians(radians),
+      precision(precision),
+      stop_criteria(stop_criteria),
+      num_threads(num_threads),
+      terms(num_threads, 0),
+      barrier(num_threads) {
+}
+
+void Cosine::worker(unsigned int offset) {
+
+  terms[offset] = std::move(calculateTerm(radians, iteration * terms.size() + offset));
+}
+
+bool Cosine::coordinator() {
+  mpf aux = 0;
+  for (auto &term : terms) aux += term;
+
+  cos += aux;
+
+  if (stop_criteria == 'f') {
+    if (abs(aux) < precision) return true;
+  } else if (stop_criteria == 'm') {
+    if (abs(terms.back()) < precision) return true;
+  }
+  return false;
+}
+
+void Cosine::asyncCalculateTerm(unsigned int offset,
+                                bool is_coordinator) {
+  while (!stop) {
+    worker(offset);
+    barrier.wait();
+
+    if (is_coordinator) {
+      stop = coordinator();
+      iteration++;
+    }
+    barrier.wait();
+  }
+}
+
+mpf Cosine::multiThreadedCosine() {
+
+  mpf fixed_radians { fixRadians(radians) };
+
+  std::vector<std::thread> threads;
+
+  for (unsigned int offset = 0; offset < num_threads-1; offset++) {
+    threads.emplace_back(&Cosine::asyncCalculateTerm, this, offset, false);
+  }
+
+  asyncCalculateTerm(num_threads-1, true);
+
+  for (auto &thread : threads) thread.join();
 
   return cos;
 }

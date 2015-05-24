@@ -55,6 +55,36 @@ TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosines) {
 
   for (auto angle : angles)
     ASSERT_NEAR(singleThreadedCosine(mpf(angle), 'f',
-                  calculatePrecision(110)).get_d(),
-                std::cos(angle), 1e-2);
+                  calculatePrecision(400)).get_d(),
+                std::cos(angle), 10e-2);
+}
+
+TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeF) {
+  std::vector<double> angles {
+    -3*PI, -2*PI, -3*PI/2, -PI, -PI/2, -PI/4,
+     0, PI/4, PI/2, PI, 3*PI/2, 2*PI, 3*PI
+  };
+
+  for (auto angle : angles) {
+    Cosine calculator(mpf(angle), calculatePrecision(400).get_d(),
+                      'f', 1);
+
+    ASSERT_NEAR(calculator.multiThreadedCosine().get_d(),
+                std::cos(angle), 10e-2);
+  }
+}
+
+TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeM) {
+  std::vector<double> angles {
+    -3*PI, -2*PI, -3*PI/2, -PI, -PI/2, -PI/4,
+     0, PI/4, PI/2, PI, 3*PI/2, 2*PI, 3*PI
+  };
+
+  for (auto angle : angles) {
+    Cosine calculator(mpf(angle), calculatePrecision(400).get_d(),
+                      'm', 1);
+
+    ASSERT_NEAR(calculator.multiThreadedCosine().get_d(),
+                std::cos(angle), 10e-2);
+  }
 }
