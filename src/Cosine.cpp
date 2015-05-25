@@ -4,6 +4,7 @@
 
 // Internal headers
 #include "InputArgs.hpp"
+#include "Math.hpp"
 
 int main(int argc, char **argv)
 {
@@ -16,6 +17,13 @@ int main(int argc, char **argv)
   }
 
   InputArgs input_args(argc, argv);
+
+  CosineCalculator calculator(
+    mpf(input_args.angle),
+    input_args.precision,
+    input_args.stop_criteria,
+    input_args.n_threads
+  );
 
   return EXIT_SUCCESS;
 }
