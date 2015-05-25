@@ -33,6 +33,7 @@ class CosineCalculator {
   char stop_criteria;
 
   mpf cos = 0;
+  int exponent;
   unsigned int iteration = 0;
   unsigned int num_threads = 0;
 

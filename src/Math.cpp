@@ -55,6 +55,7 @@ CosineCalculator::CosineCalculator(const mpf& radians,
                char stop_criteria,
                unsigned int num_threads)
     : radians(fixRadians(radians)),
+      exponent(exponent),
       precision(calculatePrecision(exponent)),
       stop_criteria(stop_criteria),
       num_threads(num_threads),
@@ -107,6 +108,9 @@ mpf CosineCalculator::multiThreadedCosine() {
   asyncCalculateTerm(num_threads-1, true);
 
   for (auto &thread : threads) thread.join();
+
+  std::cout << "Number of iterations: " << iteration << std::endl;
+  gmp_printf("Cosine value: %.*Ff\n", exponent, cos.get_mpf_t());
 
   return cos;
 }
