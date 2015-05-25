@@ -14,14 +14,11 @@ mpz factorial(const mpz& n) {
   return (n == 1 || n == 0) ? mpz(1) : factorial(n - 1) * n;
 }
 
-mpf CosineCalculator::calcultateCosine() {
-  switch (operation_mode) {
-    case 'n': // fall trough
-    case 'd':
-      return singleThreadedCosine();
-    case 's':
-      return multiThreadedCosine();
-  }
+mpf CosineCalculator::calculateCosine() {
+  std::cerr << operation_mode << std::endl;
+  if (operation_mode == 's')
+    return std::move(singleThreadedCosine());
+  return std::move(multiThreadedCosine());
 }
 
 mpf CosineCalculator::calculatePrecision(int exponent) {
@@ -67,13 +64,13 @@ mpf CosineCalculator::singleThreadedCosine() {
 ///////////////////////////////////////////////////////////////////////////////
 
 CosineCalculator::CosineCalculator(const mpf& radians,
-               int exponent,
-               char stop_criteria,
-               char operation_mode,
-               unsigned int num_threads)
+                                   int exponent,
+                                   char stop_criteria,
+                                   char operation_mode,
+                                   unsigned int num_threads)
     : radians(fixRadians(radians)),
-      exponent(exponent),
       precision(calculatePrecision(exponent)),
+      exponent(exponent),
       stop_criteria(stop_criteria),
       operation_mode(operation_mode),
       num_threads(num_threads),

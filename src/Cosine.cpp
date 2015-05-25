@@ -22,11 +22,11 @@ int main(int argc, char **argv)
     mpf(input_args.angle),
     input_args.precision,
     input_args.stop_criteria,
-    input_args.n_threads,
-    input_args.operation_mode
+    input_args.operation_mode,
+    input_args.n_threads
   );
 
-  calculator.calcultateCosine();
+  calculator.calculateCosine();
 
   return EXIT_SUCCESS;
 }

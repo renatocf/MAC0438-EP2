@@ -21,29 +21,29 @@ class CosineCalculator {
                    char operation_mode,
                    unsigned int num_threads);
 
-  mpf calcultateCosine();
+  mpf calculateCosine();
 
   mpf multiThreadedCosine();
   mpf singleThreadedCosine();
 
  private:
   // Concrete attributes
-  Barrier barrier;
-
   mpf radians;
   mpf precision;
+
+  int exponent;
 
   char stop_criteria;
   char operation_mode;
 
-  mpf cos = 0;
-  int exponent;
-  unsigned int iteration = 0;
   unsigned int num_threads = 0;
 
-  bool stop = false;
-
   std::vector<mpf> terms;
+  Barrier barrier;
+
+  mpf cos = 0;
+  bool stop = false;
+  unsigned int iteration = 0;
 
   // Concrete methods
   mpf fixRadians(const mpf& radians);
