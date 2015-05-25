@@ -18,6 +18,6 @@ void InputArgs::read_input() {
   argstream[3] >> precision;
   argstream[4] >> angle;
 
-  if (argstream.size() >= 5)
+  if (argstream.size() > 5)
     argstream[5] >> debug_level;
 }
