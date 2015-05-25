@@ -8,10 +8,10 @@
 
 int main(int argc, char **argv)
 {
-  if (argc == 5 || argc == 6) {
+  if (argc != 5 and argc != 6) {
     std::cerr << "USAGE: "
               << argv[0]
-              << "[0|n] [f|m] p x [d|s]"
+              << " [0|n] [f|m] p x [d|s]"
               << std::endl;
     return EXIT_FAILURE;
   }
