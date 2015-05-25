@@ -15,6 +15,11 @@ using ::testing::DoubleNear;
 const double PI = 3.141592653589793238462643;
 
 class ASingleThreadCosine : public testing::Test {
+ public:
+  std::vector<double> angles {
+    -3*PI, -2*PI, -3*PI/2, -PI, -PI/2, -PI/4,
+     0, PI/4, PI/2, PI, 3*PI/2, 2*PI, 3*PI
+  };
 };
 
 TEST_F(ASingleThreadCosine, ShouldCalculateFactorial) {
@@ -47,25 +52,17 @@ TEST_F(ASingleThreadCosine, ShouldCalculateFactorial) {
 }
 
 TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosines) {
-  std::vector<double> angles {
-    -3*PI, -2*PI, -3*PI/2, -PI, -PI/2, -PI/4,
-     0, PI/4, PI/2, PI, 3*PI/2, 2*PI, 3*PI
-  };
+  for (auto angle : angles) {
+    Cosine calculator(mpf(angle), 1000, 'f', 3);
 
-  for (auto angle : angles)
-    ASSERT_NEAR(singleThreadedCosine(mpf(angle), 'f',
-                calculatePrecision(1000)).get_d(),
+    ASSERT_NEAR(calculator.singleThreadedCosine().get_d(),
                 std::cos(angle), 10e-2);
+  }
 }
 
 TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeF) {
-  std::vector<double> angles {
-    -3*PI, -2*PI, -3*PI/2, -PI, -PI/2, -PI/4,
-     0, PI/4, PI/2, PI, 3*PI/2, 2*PI, 3*PI
-  };
-
   for (auto angle : angles) {
-    Cosine calculator(mpf(angle), calculatePrecision(1000), 'f', 3);
+    Cosine calculator(mpf(angle), 1000, 'f', 3);
 
     ASSERT_NEAR(calculator.multiThreadedCosine().get_d(),
                 std::cos(angle), 10e-2);
@@ -73,13 +70,8 @@ TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsIn
 }
 
 TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeM) {
-  std::vector<double> angles {
-    -3*PI, -2*PI, -3*PI/2, -PI, -PI/2, -PI/4,
-     0, PI/4, PI/2, PI, 3*PI/2, 2*PI, 3*PI
-  };
-
   for (auto angle : angles) {
-    Cosine calculator(mpf(angle), calculatePrecision(1000), 'm', 3);
+    Cosine calculator(mpf(angle), 1000, 'm', 3);
 
     ASSERT_NEAR(calculator.multiThreadedCosine().get_d(),
                 std::cos(angle), 10e-2);

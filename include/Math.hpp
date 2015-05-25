@@ -11,22 +11,17 @@
 using mpz = mpz_class;
 using mpf = mpf_class;
 
-mpf calculatePrecision(int exponent);
-
 mpz factorial(const mpz& n);
-
-mpf singleThreadedCosine(const mpf& radians,
-                         char stop_criteria,
-                         const mpf& precision);
 
 class Cosine {
  public:
   Cosine(const mpf& radians,
-         const mpf& precision,
+         int exponent,
          char stop_criteria,
          unsigned int num_threads);
 
   mpf multiThreadedCosine();
+  mpf singleThreadedCosine();
 
  private:
   // Concrete attributes
@@ -46,10 +41,17 @@ class Cosine {
   std::vector<mpf> terms;
 
   // Concrete methods
-  void worker(unsigned int offset);
-  bool coordinator();
+  mpf fixRadians(const mpf& radians);
+  mpf fixRadians_impl(const mpf& radians);
+
   void asyncCalculateTerm(unsigned int offset,
                           bool is_coordinator);
+  mpf calculateTerm(const mpf& radians,
+                    unsigned int n);
+  mpf calculatePrecision(int exponent);
+
+  void worker(unsigned int offset);
+  bool coordinator();
 };
 
 #endif
