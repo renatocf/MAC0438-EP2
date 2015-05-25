@@ -39,8 +39,6 @@ mpf Cosine::calculateTerm(const mpf& radians, unsigned int n) {
 mpf Cosine::singleThreadedCosine() {
   mpf cos = 0, aux = 0;
 
-  mpf fixed_radians { fixRadians(radians) };
-
   for (unsigned int n = 0; true; n++) {
     aux = std::move(calculateTerm(radians, n));
     cos += aux;
@@ -56,12 +54,12 @@ Cosine::Cosine(const mpf& radians,
                int exponent,
                char stop_criteria,
                unsigned int num_threads)
-    : radians(radians),
+    : radians(fixRadians(radians)),
+      precision(calculatePrecision(exponent)),
       stop_criteria(stop_criteria),
       num_threads(num_threads),
       terms(num_threads, 0),
       barrier(num_threads) {
-  precision = calculatePrecision(exponent);
 }
 
 void Cosine::worker(unsigned int offset) {
@@ -99,8 +97,6 @@ void Cosine::asyncCalculateTerm(unsigned int offset,
 }
 
 mpf Cosine::multiThreadedCosine() {
-
-  mpf fixed_radians { fixRadians(radians) };
 
   std::vector<std::thread> threads;
 
