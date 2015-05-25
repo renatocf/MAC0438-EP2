@@ -41,7 +41,7 @@ class CosineCalculator {
   std::vector<mpf> terms;
   Barrier barrier;
 
-  mpf cos = 0;
+  mpf cos;
   bool stop = false;
   unsigned int iteration = 0;
 

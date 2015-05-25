@@ -1,6 +1,7 @@
 // Standard headers
 #include <cmath>
 #include <thread>
+#include <iomanip>
 #include <iostream>
 #include <algorithm>
 
@@ -21,7 +22,7 @@ mpf CosineCalculator::calculateCosine() {
 }
 
 mpf CosineCalculator::calculatePrecision(int exponent) {
-  mpf epsilon;
+  mpf epsilon(0, exponent);
   mpf_pow_ui(epsilon.get_mpf_t(), mpf(exponent >= 0 ? 0.1 : 10).get_mpf_t(), std::abs(exponent));
   return epsilon;
 }
@@ -37,18 +38,20 @@ mpf CosineCalculator::fixRadians(const mpf& radians) {
 }
 
 mpf CosineCalculator::calculateTerm(const mpf& radians, unsigned int n) {
-  mpf aux = 0; int signal = n % 2 == 0 ? 1 : -1;
+  mpf aux(0, exponent); 
+  int signal = n % 2 == 0 ? 1 : -1;
   mpf_pow_ui(aux.get_mpf_t(), radians.get_mpf_t(), 2*n);
   return signal * (aux / factorial(2*n));
 }
 
 mpf CosineCalculator::singleThreadedCosine() {
-  mpf cos = 0, aux = 0;
+  mpf cos(0, exponent); 
+  mpf aux(0, exponent);
   unsigned int singleIterations = 0;
 
   while (true) {
     aux = std::move(calculateTerm(radians, singleIterations));
-    cos += aux;
+    cos = cos + aux;
     singleIterations++;
     if (abs(aux) < precision) break;
     gmp_printf("Partial cosine value: %.*Ff\n", exponent, cos.get_mpf_t());
@@ -67,14 +70,15 @@ CosineCalculator::CosineCalculator(const mpf& radians,
                                    char stop_criteria,
                                    char operation_mode,
                                    unsigned int num_threads)
-    : radians(fixRadians(radians)),
-      precision(calculatePrecision(exponent)),
+    : radians(fixRadians(radians), exponent),
+      precision(calculatePrecision(exponent), exponent),
       exponent(exponent),
       stop_criteria(stop_criteria),
       operation_mode(operation_mode),
       num_threads(num_threads),
       terms(num_threads, 0),
-      barrier(num_threads) {
+      barrier(num_threads),
+      cos(0, exponent) {
 }
 
 void CosineCalculator::worker(unsigned int offset) {
@@ -85,7 +89,7 @@ void CosineCalculator::worker(unsigned int offset) {
 }
 
 bool CosineCalculator::coordinator() {
-  mpf aux = 0;
+  mpf aux(0, exponent);
   for (auto &term : terms) aux += term;
 
   cos += aux;
