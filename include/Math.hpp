@@ -33,7 +33,7 @@ class Cosine {
   Barrier barrier;
 
   mpf radians;
-  const mpf& precision;
+  mpf precision;
 
   char stop_criteria;
 

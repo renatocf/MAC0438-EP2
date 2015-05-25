@@ -72,7 +72,6 @@ Cosine::Cosine(const mpf& radians,
 }
 
 void Cosine::worker(unsigned int offset) {
-
   terms[offset] = std::move(calculateTerm(radians, iteration * terms.size() + offset));
 }
 
