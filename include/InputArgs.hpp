@@ -11,7 +11,7 @@ struct InputArgs {
   unsigned int n_threads;
   char         stop_criteria;
   int          precision;
-  double       cosine;
+  double       angle;
   char         debug_level;
 
   InputArgs(int argc, char const *const *argv);

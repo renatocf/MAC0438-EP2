@@ -16,7 +16,7 @@ void InputArgs::read_input() {
   argstream[1] >> n_threads;
   argstream[2] >> stop_criteria;
   argstream[3] >> precision;
-  argstream[4] >> cosine;
+  argstream[4] >> angle;
 
   if (argstream.size() >= 5)
     argstream[5] >> debug_level;

@@ -26,7 +26,7 @@ TEST_F(ASetOfInputArguments, NonZeroNumberOfThreads) {
   ASSERT_TRUE(args.n_threads == 2
     and args.stop_criteria   == 'f'
     and args.precision       == 10
-    and args.cosine          == 1
+    and args.angle           == 1
     and args.debug_level     == 'd');
 }
 
@@ -40,6 +40,6 @@ TEST_F(ASetOfInputArguments, ZeroNumberOfThreads) {
   ASSERT_TRUE(args.n_threads == std::thread::hardware_concurrency()
     and args.stop_criteria   == 'f'
     and args.precision       == 10
-    and args.cosine          == 1
+    and args.angle           == 1
     and args.debug_level     == 'd');
 }
