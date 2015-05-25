@@ -15,7 +15,6 @@ mpz factorial(const mpz& n) {
 }
 
 mpf CosineCalculator::calculateCosine() {
-  std::cerr << operation_mode << std::endl;
   if (operation_mode == 's')
     return std::move(singleThreadedCosine());
   return std::move(multiThreadedCosine());
