@@ -13,9 +13,9 @@ using mpf = mpf_class;
 
 mpz factorial(const mpz& n);
 
-class Cosine {
+class CosineCalculator {
  public:
-  Cosine(const mpf& radians,
+  CosineCalculator(const mpf& radians,
          int exponent,
          char stop_criteria,
          unsigned int num_threads);

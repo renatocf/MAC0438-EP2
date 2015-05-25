@@ -14,29 +14,29 @@ mpz factorial(const mpz& n) {
   return (n == 1 || n == 0) ? mpz(1) : factorial(n - 1) * n;
 }
 
-mpf Cosine::calculatePrecision(int exponent) {
+mpf CosineCalculator::calculatePrecision(int exponent) {
   mpf epsilon;
   mpf_pow_ui(epsilon.get_mpf_t(), mpf(0.1).get_mpf_t(), exponent);
   return epsilon;
 }
 
-mpf Cosine::fixRadians_impl(const mpf& radians) {
+mpf CosineCalculator::fixRadians_impl(const mpf& radians) {
   if (radians > 2*PI)
     return fixRadians_impl(radians - 2*PI);
   return radians;
 }
 
-mpf Cosine::fixRadians(const mpf& radians) {
+mpf CosineCalculator::fixRadians(const mpf& radians) {
   return fixRadians_impl(abs(radians));
 }
 
-mpf Cosine::calculateTerm(const mpf& radians, unsigned int n) {
+mpf CosineCalculator::calculateTerm(const mpf& radians, unsigned int n) {
   mpf aux = 0; int signal = n % 2 == 0 ? 1 : -1;
   mpf_pow_ui(aux.get_mpf_t(), radians.get_mpf_t(), 2*n);
   return signal * (aux / factorial(2*n));
 }
 
-mpf Cosine::singleThreadedCosine() {
+mpf CosineCalculator::singleThreadedCosine() {
   mpf cos = 0, aux = 0;
 
   for (unsigned int n = 0; true; n++) {
@@ -50,7 +50,7 @@ mpf Cosine::singleThreadedCosine() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Cosine::Cosine(const mpf& radians,
+CosineCalculator::CosineCalculator(const mpf& radians,
                int exponent,
                char stop_criteria,
                unsigned int num_threads)
@@ -62,11 +62,11 @@ Cosine::Cosine(const mpf& radians,
       barrier(num_threads) {
 }
 
-void Cosine::worker(unsigned int offset) {
+void CosineCalculator::worker(unsigned int offset) {
   terms[offset] = std::move(calculateTerm(radians, iteration * terms.size() + offset));
 }
 
-bool Cosine::coordinator() {
+bool CosineCalculator::coordinator() {
   mpf aux = 0;
   for (auto &term : terms) aux += term;
 
@@ -82,7 +82,7 @@ bool Cosine::coordinator() {
   return false;
 }
 
-void Cosine::asyncCalculateTerm(unsigned int offset,
+void CosineCalculator::asyncCalculateTerm(unsigned int offset,
                                 bool is_coordinator) {
   while (!stop) {
     worker(offset);
@@ -96,12 +96,12 @@ void Cosine::asyncCalculateTerm(unsigned int offset,
   }
 }
 
-mpf Cosine::multiThreadedCosine() {
+mpf CosineCalculator::multiThreadedCosine() {
 
   std::vector<std::thread> threads;
 
   for (unsigned int offset = 0; offset < num_threads-1; offset++) {
-    threads.emplace_back(&Cosine::asyncCalculateTerm, this, offset, false);
+    threads.emplace_back(&CosineCalculator::asyncCalculateTerm, this, offset, false);
   }
 
   asyncCalculateTerm(num_threads-1, true);
