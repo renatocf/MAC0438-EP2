@@ -27,7 +27,7 @@ TEST_F(ASetOfInputArguments, NonZeroNumberOfThreads) {
     and args.stop_criteria   == 'f'
     and args.precision       == 10
     and args.angle           == 1
-    and args.debug_level     == 'd');
+    and args.operation_mode  == 'd');
 }
 
 TEST_F(ASetOfInputArguments, ZeroNumberOfThreads) {
@@ -41,5 +41,5 @@ TEST_F(ASetOfInputArguments, ZeroNumberOfThreads) {
     and args.stop_criteria   == 'f'
     and args.precision       == 10
     and args.angle           == 1
-    and args.debug_level     == 'd');
+    and args.operation_mode  == 'd');
 }
