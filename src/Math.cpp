@@ -2,6 +2,7 @@
 #include <cmath>
 #include <thread>
 #include <iostream>
+#include <algorithm>
 
 // Local headers
 #include "Math.hpp"
@@ -76,7 +77,9 @@ bool Cosine::coordinator() {
   if (stop_criteria == 'f') {
     if (abs(aux) < precision) return true;
   } else if (stop_criteria == 'm') {
-    if (abs(terms.back()) < precision) return true;
+    if (std::any_of(terms.begin(), terms.end(), 
+                    [this] (const mpf& t) { return abs(t) < precision; })) 
+      return true;
   }
   return false;
 }
