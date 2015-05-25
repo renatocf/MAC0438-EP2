@@ -7,14 +7,14 @@
 #include "gmock/gmock.h"
 
 // Internal headers
-#include "Math.hpp"
+#include "CosineCalculator.hpp"
 
 // Alias
 using ::testing::DoubleNear;
 
 const double PI = 3.141592653589793238462643;
 
-class ASingleThreadCosine : public testing::Test {
+class ACosineCalculator : public testing::Test {
  public:
   std::vector<double> angles {
     -3*PI, -2*PI, -3*PI/2, -PI, -PI/2, -PI/4,
@@ -22,7 +22,7 @@ class ASingleThreadCosine : public testing::Test {
   };
 };
 
-TEST_F(ASingleThreadCosine, ShouldCalculateFactorial) {
+TEST_F(ACosineCalculator, ShouldCalculateFactorial) {
   std::map<unsigned int, unsigned long int> factorials {
       { 0, 1ul },
       { 1, 1ul },
@@ -51,7 +51,7 @@ TEST_F(ASingleThreadCosine, ShouldCalculateFactorial) {
     ASSERT_EQ(fact.second, factorial(mpz(fact.first)).get_ui());
 }
 
-TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosines) {
+TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosines) {
   for (auto angle : angles) {
     CosineCalculator calculator(mpf(angle), 10000, 'f', 's', 35);
 
@@ -60,7 +60,7 @@ TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosines) {
   }
 }
 
-TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeF) {
+TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeF) {
   for (auto angle : angles) {
     CosineCalculator calculator(mpf(angle), 10000, 'f', 'n', 1);
 
@@ -69,7 +69,7 @@ TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsIn
   }
 }
 
-TEST_F(ASingleThreadCosine, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeM) {
+TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeM) {
   for (auto angle : angles) {
     CosineCalculator calculator(mpf(angle), 10000, 'm', 'd', 1);
 

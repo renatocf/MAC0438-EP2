@@ -5,7 +5,7 @@
 #include <algorithm>
 
 // Local headers
-#include "Math.hpp"
+#include "CosineCalculator.hpp"
 #include "Barrier.hpp"
 
 const double PI = 3.141592653589793238462643;
@@ -97,8 +97,8 @@ bool CosineCalculator::coordinator() {
   if (stop_criteria == 'f') {
     if (abs(aux) < precision) return true;
   } else if (stop_criteria == 'm') {
-    if (std::any_of(terms.begin(), terms.end(), 
-                    [this] (const mpf& t) { return abs(t) < precision; })) 
+    if (std::any_of(terms.begin(), terms.end(),
+                    [this] (const mpf& t) { return abs(t) < precision; }))
       return true;
   }
   return false;

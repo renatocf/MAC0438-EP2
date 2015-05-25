@@ -4,7 +4,7 @@
 
 // Internal headers
 #include "InputArgs.hpp"
-#include "Math.hpp"
+#include "CosineCalculator.hpp"
 
 int main(int argc, char **argv)
 {
