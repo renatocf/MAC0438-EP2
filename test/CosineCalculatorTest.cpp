@@ -53,7 +53,7 @@ TEST_F(ACosineCalculator, ShouldCalculateFactorial) {
 
 TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosines) {
   for (auto angle : angles) {
-    CosineCalculator calculator(mpf(angle), 10000, 'f', 's', 35);
+    CosineCalculator calculator(mpf(angle), 1000, 'f', 's', 35);
 
     ASSERT_NEAR(calculator.singleThreadedCosine().get_d(),
                 std::cos(angle), 10e-2);
@@ -62,7 +62,7 @@ TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosines) {
 
 TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeF) {
   for (auto angle : angles) {
-    CosineCalculator calculator(mpf(angle), 10000, 'f', 'n', 1);
+    CosineCalculator calculator(mpf(angle), 1000, 'f', 'n', 1);
 
     ASSERT_NEAR(calculator.multiThreadedCosine().get_d(),
                 std::cos(angle), 10e-2);
@@ -71,7 +71,7 @@ TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosinesWithMultipleThreadsInSt
 
 TEST_F(ACosineCalculator, ShouldCalculateCanonicalCosinesWithMultipleThreadsInStopModeM) {
   for (auto angle : angles) {
-    CosineCalculator calculator(mpf(angle), 10000, 'm', 'd', 1);
+    CosineCalculator calculator(mpf(angle), 1000, 'm', 'd', 1);
 
     ASSERT_NEAR(calculator.multiThreadedCosine().get_d(),
                 std::cos(angle), 10e-2);
