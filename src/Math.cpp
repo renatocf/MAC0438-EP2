@@ -38,18 +38,18 @@ mpf CosineCalculator::calculateTerm(const mpf& radians, unsigned int n) {
 
 mpf CosineCalculator::singleThreadedCosine() {
   mpf cos = 0, aux = 0;
-  unsigned int n_calculatedTerms = 0;
+  unsigned int singleIterations = 0;
 
-  while(true){
-    aux = std::move(calculateTerm(radians, n));
+  while (true) {
+    aux = std::move(calculateTerm(radians, singleIterations));
     cos += aux;
-    n++;
+    singleIterations++;
     if (abs(aux) < precision) break;
     gmp_printf("Partial cosine value: %.*Ff\n", exponent, cos.get_mpf_t());
   }
 
   gmp_printf("Final cosine value: %.*Ff\n", exponent, cos.get_mpf_t());
-  std::cout << "Number of different calculated terms: " << n << std::endl;
+  std::cout << "Number of different calculated terms: " << singleIterations << std::endl;
 
   return cos;
 }
