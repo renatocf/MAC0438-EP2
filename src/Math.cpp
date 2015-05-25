@@ -22,7 +22,7 @@ mpf CosineCalculator::calculateCosine() {
 
 mpf CosineCalculator::calculatePrecision(int exponent) {
   mpf epsilon;
-  mpf_pow_ui(epsilon.get_mpf_t(), mpf(precision >= 0? 0.1 : 10).get_mpf_t(), std::abs(exponent));
+  mpf_pow_ui(epsilon.get_mpf_t(), mpf(exponent >= 0 ? 0.1 : 10).get_mpf_t(), std::abs(exponent));
   return epsilon;
 }
 
