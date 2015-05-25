@@ -14,6 +14,16 @@ mpz factorial(const mpz& n) {
   return (n == 1 || n == 0) ? mpz(1) : factorial(n - 1) * n;
 }
 
+mpf CosineCalculator::calcultateCosine() {
+  switch (operation_mode) {
+    case 'n': // fall trough
+    case 'd':
+      return singleThreadedCosine();
+    case 's':
+      return multiThreadedCosine();
+  }
+}
+
 mpf CosineCalculator::calculatePrecision(int exponent) {
   mpf epsilon;
   mpf_pow_ui(epsilon.get_mpf_t(), mpf(0.1).get_mpf_t(), exponent);
@@ -59,11 +69,13 @@ mpf CosineCalculator::singleThreadedCosine() {
 CosineCalculator::CosineCalculator(const mpf& radians,
                int exponent,
                char stop_criteria,
+               char operation_mode,
                unsigned int num_threads)
     : radians(fixRadians(radians)),
       exponent(exponent),
       precision(calculatePrecision(exponent)),
       stop_criteria(stop_criteria),
+      operation_mode(operation_mode),
       num_threads(num_threads),
       terms(num_threads, 0),
       barrier(num_threads) {

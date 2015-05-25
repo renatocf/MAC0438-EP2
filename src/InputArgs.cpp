@@ -19,5 +19,5 @@ void InputArgs::read_input() {
   argstream[4] >> angle;
 
   if (argstream.size() > 5)
-    argstream[5] >> debug_level;
+    argstream[5] >> operation_mode;
 }

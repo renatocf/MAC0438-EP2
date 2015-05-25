@@ -12,7 +12,7 @@ struct InputArgs {
   char         stop_criteria;
   int          precision;
   double       angle;
-  char         debug_level;
+  char         operation_mode = 'n';
 
   InputArgs(int argc, char const *const *argv);
 

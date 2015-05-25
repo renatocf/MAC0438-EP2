@@ -16,9 +16,12 @@ mpz factorial(const mpz& n);
 class CosineCalculator {
  public:
   CosineCalculator(const mpf& radians,
-         int exponent,
-         char stop_criteria,
-         unsigned int num_threads);
+                   int exponent,
+                   char stop_criteria,
+                   char operation_mode,
+                   unsigned int num_threads);
+
+  mpf calcultateCosine();
 
   mpf multiThreadedCosine();
   mpf singleThreadedCosine();
@@ -31,6 +34,7 @@ class CosineCalculator {
   mpf precision;
 
   char stop_criteria;
+  char operation_mode;
 
   mpf cos = 0;
   int exponent;
