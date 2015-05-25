@@ -23,7 +23,7 @@ mpf CosineCalculator::calculateCosine() {
 
 mpf CosineCalculator::calculatePrecision(int exponent) {
   mpf epsilon;
-  mpf_pow_ui(epsilon.get_mpf_t(), mpf(0.1).get_mpf_t(), exponent);
+  mpf_pow_ui(epsilon.get_mpf_t(), mpf(precision >= 0? 0.1 : 10).get_mpf_t(), std::abs(exponent));
   return epsilon;
 }
 
@@ -80,6 +80,9 @@ CosineCalculator::CosineCalculator(const mpf& radians,
 
 void CosineCalculator::worker(unsigned int offset) {
   terms[offset] = std::move(calculateTerm(radians, iteration * terms.size() + offset));
+  if (operation_mode == 'd')
+    std::cout << "Thread number " << offset
+              << " has reached the barrier!" << std::endl;
 }
 
 bool CosineCalculator::coordinator() {
@@ -87,6 +90,10 @@ bool CosineCalculator::coordinator() {
   for (auto &term : terms) aux += term;
 
   cos += aux;
+
+  if (operation_mode == 'd') {
+    gmp_printf("Partial cosine value: %.*Ff\n", exponent, cos.get_mpf_t());
+  }
 
   if (stop_criteria == 'f') {
     if (abs(aux) < precision) return true;
